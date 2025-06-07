@@ -1,5 +1,5 @@
-import React from 'react';
- import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Contact() {
   return (
@@ -13,14 +13,14 @@ export default function Contact() {
               NETWORKING <br /> MADE TOUCH <br /> SIMPLE
             </h1>
             <p className="text-sm md:text-base mb-6">
-              Instantly share your contact, socials, and more—just one tap with your NFC business card.
+              Instantly share your contact, socials, and more—just one tap with
+              your NFC business card.
             </p>
             <Link to="/contact">
-  <button className="bg-orange-500 text-white px-6 py-2 rounded-lg shadow hover:bg-orange-600 active:scale-95 transition w-fit">
-    Contact Us
-  </button>
-</Link>
-
+              <button className="bg-orange-500 text-white px-6 py-2 rounded-lg shadow hover:bg-orange-600 active:scale-95 transition w-fit">
+                Contact Us
+              </button>
+            </Link>
           </div>
 
           {/* Bottom Left Section */}
@@ -33,7 +33,9 @@ export default function Contact() {
           */}
           <div className="flex flex-col sm:flex-row gap-6 items-center justify-center sm:justify-start">
             {/* Image Block */}
-            <div className="rounded-2xl w-72 h-[130px] sm:h-[180px] bg-white shadow-lg flex items-center justify-center overflow-hidden"> {/* Adjusted height */}
+            <div className="rounded-2xl w-72 h-[130px] sm:h-[180px] bg-white shadow-lg flex items-center justify-center overflow-hidden">
+              {" "}
+              {/* Adjusted height */}
               <div className="w-full h-full flex items-center justify-center p-3">
                 <img
                   alt="Mobile Preview"
@@ -44,10 +46,16 @@ export default function Contact() {
             </div>
 
             {/* Orange Text Block */}
-            <div className="bg-orange-500 text-white rounded-2xl w-72 h-[130px] sm:h-[180px] flex items-center justify-center text-center shadow-lg p-5"> {/* Adjusted height */}
+            <div className="bg-orange-500 text-white rounded-2xl w-72 h-[130px] sm:h-[180px] flex items-center justify-center text-center shadow-lg p-5">
+              {" "}
+              {/* Adjusted height */}
               <div>
-                <h2 className="text-lg font-bold mb-3 leading-snug">CONNECT SMARTER FASTER</h2>
-                <p className="text-sm">Share your brand in seconds with sleek, modern NFC cards.</p>
+                <h2 className="text-lg font-bold mb-3 leading-snug">
+                  CONNECT SMARTER FASTER
+                </h2>
+                <p className="text-sm">
+                  Share your brand in seconds with sleek, modern NFC cards.
+                </p>
               </div>
             </div>
           </div>

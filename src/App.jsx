@@ -1,20 +1,23 @@
-import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-
-// Landing page sections
-import HeroSection from './components/HeroSection';
-import WhyMyVkard from './components/WhyMyVkard';
-import ProductSnapshot from './components/ProductSnapshot';
-import HowItWorks from './components/HowItWorks';
-import Testimonials from './components/Testimonials';
-import FAQ from './components/FAQ';
-import CTASection from './components/CTASection';
-
-// Pages
-import ContactUs from './components/pages/ContactUs';
-import NfcBusinessCards from './components/pages/NfcBusinessCards';
-import Contact from './components/Contact';
+import { Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { Toaster } from 'react-hot-toast';
+import DashboardLayout from "./layouts/DashboardLayout";
+import HeroSection from "./components/HeroSection";
+import WhyMyVkard from "./components/WhyMyVkard";
+import ProductSnapshot from "./components/ProductSnapshot";
+import HowItWorks from "./components/HowItWorks";
+import Testimonials from "./components/Testimonials";
+import FAQ from "./components/FAQ";
+import CTASection from "./components/CTASection";
+import ContactUs from "./components/pages/ContactUs";
+import NfcBusinessCards from "./components/pages/NfcBusinessCards";
+import Contact from "./components/Contact";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import CartPage from "./pages/CartPage";
+import Dashboard from "./pages/Dashboard";
+import ThankYou from "./pages/ThankYou";
 
 function HomePage() {
   return (
@@ -34,11 +37,24 @@ function HomePage() {
 function App() {
   return (
     <div className="w-full overflow-x-hidden">
+      <Toaster position="top-center" />
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/nfc-business-cards" element={<NfcBusinessCards />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/success" element={<ThankYou />} />
+        <Route
+          path="/dashboard"
+          element={
+            <DashboardLayout>
+              <Dashboard />
+            </DashboardLayout>
+          }
+        />
       </Routes>
       <Footer />
     </div>

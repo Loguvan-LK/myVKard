@@ -52,7 +52,8 @@ const WhyMyVkard = () => {
                 Why myVkard?
               </h2>
               <h3 className="text-3xl sm:text-4xl font-bold leading-tight">
-                A Better Way to<br />
+                A Better Way to
+                <br />
                 Share Your Info
               </h3>
             </div>

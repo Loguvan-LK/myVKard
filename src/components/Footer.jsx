@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa6";
 import { FaLandmark } from "react-icons/fa6";
 import { HiOutlineMail, HiOutlinePhone } from "react-icons/hi";
- import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -74,13 +74,11 @@ const Footer = () => {
                   ABOUT
                 </a> */}
 
-<Link to="/about">
-  <button className="hover:text-orange-400 no-underline transition-colors">
-    ABOUT
-  </button>
-</Link>
-
-
+                <Link to="/about">
+                  <button className="hover:text-orange-400 no-underline transition-colors">
+                    ABOUT
+                  </button>
+                </Link>
               </li>
               <li>
                 {/* <a
@@ -90,13 +88,11 @@ const Footer = () => {
                   BLOG
                 </a> */}
 
-<Link to="/blog">
-  <button className="hover:text-orange-400 no-underline transition-colors">
-    BLOG
-  </button>
-</Link>
-
-                
+                <Link to="/blog">
+                  <button className="hover:text-orange-400 no-underline transition-colors">
+                    BLOG
+                  </button>
+                </Link>
               </li>
               <li>
                 {/* <a
@@ -105,12 +101,11 @@ const Footer = () => {
                 >
                   TERMS AND SERVICES
                 </a> */}
-<Link to="/terms-and-conditions">
-  <button className="hover:text-orange-400 no-underline transition-colors">
-    TERMS AND CONDITIONS
-  </button>
-</Link>
-
+                <Link to="/terms-and-conditions">
+                  <button className="hover:text-orange-400 no-underline transition-colors">
+                    TERMS AND CONDITIONS
+                  </button>
+                </Link>
               </li>
             </ul>
           </div>

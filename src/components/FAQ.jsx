@@ -8,10 +8,9 @@ const FAQ = () => {
         <div className="text-left md:text-center">
           <h2 className="text-4xl text-orange-500 leading-tight">
             FAQ
-            <br />
-            <h3 className="text-[#00467F]">Have Any</h3>
-             <h3 className="text-[#00467F]">Questions?</h3>
           </h2>
+            <h3 className="text-4xl  leading-tight text-[#00467F]">Have Any</h3>
+            <h3 className="text-4xl  leading-tight text-[#00467F]">Questions?</h3>
         </div>
 
         {/* Right Accordion */}
@@ -19,15 +18,18 @@ const FAQ = () => {
           {[
             {
               question: "Do I need an app to use myVkard?",
-              answer: "No. You don’t need an app, and neither does the person receiving your info.",
+              answer:
+                "No. You don’t need an app, and neither does the person receiving your info.",
             },
             {
               question: "Will it work on all smartphones?",
-              answer: "Yes, myVkard works with any smartphone with NFC support or QR code scanning capability.",
+              answer:
+                "Yes, myVkard works with any smartphone with NFC support or QR code scanning capability.",
             },
             {
               question: "Can I update my profile later?",
-              answer: "Yes, you can update your profile anytime via the dashboard.",
+              answer:
+                "Yes, you can update your profile anytime via the dashboard.",
             },
           ].map((faq, index) => (
             <details
