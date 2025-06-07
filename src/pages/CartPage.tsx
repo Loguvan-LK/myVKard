@@ -2,6 +2,8 @@ import { useCartStore } from "../store/cartStore";
 import { FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { BASE_URL } from "../config/config";
+
 
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity } = useCartStore();
@@ -24,7 +26,7 @@ const CartPage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/purchase", {
+      const response = await fetch(`${BASE_URL}/api/purchase`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

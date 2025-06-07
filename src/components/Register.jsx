@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { BASE_URL } from "../config/config";
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ const Register = () => {
 
   const sendOtp = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/send-registration-otp', {
+      const res = await fetch(`${BASE_URL}/api/send-registration-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
@@ -30,7 +31,7 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/register', {
+      const res = await fetch(`${BASE_URL}/api/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, otp }),

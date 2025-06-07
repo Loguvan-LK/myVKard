@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { useCartStore } from '../store/cartStore';
+import { BASE_URL } from "../config/config";
 
 export const syncCartToBackend = async (token, userId) => {
   const localCart = useCartStore.getState().cart;
 
   try {
-    const res = await axios.get('http://localhost:5000/api/cart', {
+    const res = await axios.get(`${BASE_URL}/api/cart`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const backendCart = res.data.items || [];
@@ -17,7 +18,7 @@ export const syncCartToBackend = async (token, userId) => {
       const newQuantity = backendQuantity + Number(item.quantity);
 
       await axios.post(
-        'http://localhost:5000/api/cart',
+        `${BASE_URL}/api/cart`,
         {
           productId: item.id,
           quantity: newQuantity,

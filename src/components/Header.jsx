@@ -4,7 +4,7 @@ import { useCartStore } from "@/store/cartStore";
 import { useAuthStore } from "@/store/authStore";
 import toast from "react-hot-toast";
 import { useState } from "react";
-
+import { BASE_URL } from "../config/config";
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Header = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/purchase", {
+      const response = await fetch(`${BASE_URL}/api/purchase`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

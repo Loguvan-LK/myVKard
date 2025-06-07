@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useCartStore } from '../store/cartStore';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../store/authStore'; // Import authStore
 import { CheckCircle } from 'lucide-react';
+import { BASE_URL } from "../config/config";
 
 const ThankYou = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { clearCart } = useCartStore();
-  const { user } = useAuthStore();
+  const { user, setUser } = useAuthStore(); // Add setUser from authStore
   const [isProcessing, setIsProcessing] = useState(true);
   const [purchaseDetails, setPurchaseDetails] = useState(null);
 
@@ -19,11 +20,23 @@ const ThankYou = () => {
     if (sessionId && purchaseId) {
       const verifyPayment = async () => {
         try {
-          const res = await fetch(`http://localhost:5000/api/success?session_id=${sessionId}&purchase_id=${purchaseId}`);
+          const res = await fetch(`${BASE_URL}/api/success?session_id=${sessionId}&purchase_id=${purchaseId}`);
           const data = await res.json();
           if (data.success) {
-            clearCart();
-            setPurchaseDetails({ quantity: data.cards.length });
+            clearCart(); // Clear local cart
+            setPurchaseDetails({ quantity: data.user.nfcCardCount }); // Use updated nfcCardCount
+
+            // Update user in authStore with the latest data
+            setUser(data.user);
+
+            // Optionally, clear the backend cart explicitly
+            const token = localStorage.getItem('token');
+            await fetch(`${BASE_URL}/api/cart`, {
+              method: 'DELETE', // Assuming you have a DELETE endpoint to clear the cart
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
           }
         } catch (error) {
           console.error('Error verifying payment:', error);
@@ -35,7 +48,7 @@ const ThankYou = () => {
     } else {
       navigate('/');
     }
-  }, [searchParams, clearCart, navigate]);
+  }, [searchParams, clearCart, navigate, setUser]);
 
   const handleGoToDashboard = () => {
     navigate('/dashboard');
