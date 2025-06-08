@@ -14,13 +14,16 @@ export default function HeroSection() {
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col lg:flex-row justify-between items-center gap-10 relative">
         {/* Left Content */}
         <div className="text-left z-10 lg:w-1/3 order-1 w-full">
-          <h4 className="text-[#FF6B00] text-2xl font-semibold mb-2">NFC Solution</h4>
+          <h4 className="text-[#FF6B00] text-2xl font-semibold mb-2">
+            NFC Solution
+          </h4>
           <h1 className="text-4xl sm:text-5xl font-bold text-[#11357E] leading-tight mb-6">
             Tap. Connect. <br /> Share Instantly.
           </h1>
           <p className="text-base sm:text-lg text-[#333333] mb-8 max-w-sm">
-            Your smart digital business card is here. One tap lets you share your contact details,
-            links, and profile—no apps, no paper, no hassle.
+            Your smart digital business card is here. One tap lets you share
+            your contact details, links, and profile—no apps, no paper, no
+            hassle.
           </p>
           <button className="bg-[#FF6B00] text-white font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-md text-base sm:text-lg relative shadow-[4px_4px_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
             Buy Your Card Now
@@ -39,13 +42,19 @@ export default function HeroSection() {
         {/* Right Content */}
         <div className="text-left z-10 flex flex-col justify-center lg:w-1/3 order-4 lg:order-3 w-full">
           <div className="flex items-baseline mb-2 lg:mb-2">
-            <h2 className="text-[#FF6B00] text-4xl sm:text-5xl font-bold">50</h2>
-            <h2 className="text-4xl sm:text-5xl font-bold text-[#11357E]">K+</h2>
+            <h2 className="text-[#FF6B00] text-4xl sm:text-5xl font-bold">
+              50
+            </h2>
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#11357E]">
+              K+
+            </h2>
           </div>
-          <h3 className="text-3xl sm:text-4xl font-bold text-[#11357E] mb-4">Smart Connections</h3>
+          <h3 className="text-3xl sm:text-4xl font-bold text-[#11357E] mb-4">
+            Smart Connections
+          </h3>
           <p className="text-base sm:text-lg text-[#333333] mb-6 sm:mb-8 max-w-sm">
-            From freelancers to founders, MyVKard helps professionals simplify networking, stand out,
-            and stay connected—anytime, anywhere.
+            From freelancers to founders, MyVKard helps professionals simplify
+            networking, stand out, and stay connected—anytime, anywhere.
           </p>
 
           {/* Arrow + Dots for large screens */}

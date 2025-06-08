@@ -55,41 +55,47 @@ const HowItWorks = () => {
               return (
                 <div
                   key={step.id}
-                  className={`flex ${isLeft ? "justify-start" : "justify-end"} relative`}
+                  className={`flex ${
+                    isLeft ? "justify-start" : "justify-end"
+                  } relative`}
                 >
-                 <ArcherElement
-  id={step.id}
-  relations={
-    step.next
-      ? [
-          {
-            targetId: step.next,
-            targetAnchor: isLeft ? "left" : "right",
-            sourceAnchor: isLeft ? "right" : "left",
-            style: {
-              strokeColor: "#FF8500",
-              strokeWidth: 3,
-              strokeDasharray: "8,4",
-              filter: "drop-shadow(0 0 2px rgba(255, 133, 0, 0.7))",
-              endMarker: true,
-            },
-          },
-        ]
-      : []
-  }
->
-  <div className="bg-[#003B6D] text-white rounded-xl p-6 shadow-xl w-[300px] relative">
-    <div className="absolute -top-5 -left-5 bg-[#FF8500] text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg shadow-md">
-      {index + 1}
-    </div>
-    <div className="flex items-center space-x-2 mb-3">
-      <Icon className="text-[#FF8500] w-6 h-6" />
-      <h3 className="text-lg font-semibold text-[#FF8500]">{step.title}</h3>
-    </div>
-    <p className="text-white text-sm mt-1">{step.description}</p>
-  </div>
-</ArcherElement>
-
+                  <ArcherElement
+                    id={step.id}
+                    relations={
+                      step.next
+                        ? [
+                            {
+                              targetId: step.next,
+                              targetAnchor: isLeft ? "left" : "right",
+                              sourceAnchor: isLeft ? "right" : "left",
+                              style: {
+                                strokeColor: "#FF8500",
+                                strokeWidth: 3,
+                                strokeDasharray: "8,4",
+                                filter:
+                                  "drop-shadow(0 0 2px rgba(255, 133, 0, 0.7))",
+                                endMarker: true,
+                              },
+                            },
+                          ]
+                        : []
+                    }
+                  >
+                    <div className="bg-[#003B6D] text-white rounded-xl p-6 shadow-xl w-[300px] relative">
+                      <div className="absolute -top-5 -left-5 bg-[#FF8500] text-white w-10 h-10 flex items-center justify-center rounded-full font-bold text-lg shadow-md">
+                        {index + 1}
+                      </div>
+                      <div className="flex items-center space-x-2 mb-3">
+                        <Icon className="text-[#FF8500] w-6 h-6" />
+                        <h3 className="text-lg font-semibold text-[#FF8500]">
+                          {step.title}
+                        </h3>
+                      </div>
+                      <p className="text-white text-sm mt-1">
+                        {step.description}
+                      </p>
+                    </div>
+                  </ArcherElement>
                 </div>
               );
             })}
@@ -107,13 +113,15 @@ const HowItWorks = () => {
               key={step.id}
               className="bg-[#003B6D] text-white rounded-xl p-6 w-[90%] mt-10 shadow-xl z-10 relative"
             >
-             <div className="flex items-center space-x-2 mb-3">
-  <div className="bg-[#FF8500] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
-    {index + 1}
-  </div>
-  <Icon className="text-[#FF8500] w-5 h-5" />
-  <h3 className="text-[#FF8500] font-bold text-lg">{step.title}</h3>
-</div>
+              <div className="flex items-center space-x-2 mb-3">
+                <div className="bg-[#FF8500] text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
+                  {index + 1}
+                </div>
+                <Icon className="text-[#FF8500] w-5 h-5" />
+                <h3 className="text-[#FF8500] font-bold text-lg">
+                  {step.title}
+                </h3>
+              </div>
 
               <p className="text-white text-sm">{step.description}</p>
             </div>
