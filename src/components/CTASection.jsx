@@ -9,7 +9,7 @@ const CTASection = () => {
     const product = {
       id: "nfc-001",
       name: "NFC Business Card",
-      price: 25,
+      price: 50,
       quantity: 1,
     };
     addToCart(product);

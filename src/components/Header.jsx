@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
-import { useCartStore } from "@/store/cartStore";
-import { useAuthStore } from "@/store/authStore";
+import { useCartStore } from "../store/cartStore";
+import { useAuthStore } from "../store/authStore";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { BASE_URL } from "../config/config";
