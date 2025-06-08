@@ -314,7 +314,7 @@ const Dashboard = () => {
           <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6">
             <div className="flex items-center space-x-2">
               <Globe className="h-5 w-5 text-green-600 flex-shrink-0" />
-              <span className="text-sm break-all">Card URL: myvkard.io/{user.uniqueId}</span>
+              <span className="text-sm break-all">Card URL: myvkard-backend-omrh.onrender.com/api/{user.uniqueId}</span>
             </div>
           </div>
         </div>
