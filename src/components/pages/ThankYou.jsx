@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useCartStore } from '../store/cartStore';
-import { useAuthStore } from '../store/authStore'; // Import authStore
+import { useCartStore } from '../../store/cartStore';
+import { useAuthStore } from '../../store/authStore'; // Import authStore
 import { CheckCircle } from 'lucide-react';
-import { BASE_URL } from "../config/config";
+import { BASE_URL } from "../../config/config";
 
 const ThankYou = () => {
   const [searchParams] = useSearchParams();

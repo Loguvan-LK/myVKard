@@ -1,8 +1,8 @@
-import { useCartStore } from "../store/cartStore";
+import { useCartStore } from "../../store/cartStore";
 import { FiTrash2, FiPlus, FiMinus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { BASE_URL } from "../config/config";
+import { BASE_URL } from "../../config/config";
 
 const CartPage = () => {
   const { cart, removeFromCart, updateQuantity } = useCartStore();
