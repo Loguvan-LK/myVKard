@@ -5,13 +5,14 @@ import { useAuthStore } from "../store/authStore";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import { BASE_URL } from "../config/config";
+
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const { cart, isCartOpen, setCartOpen, clearCart, getTotalQuantity } = useCartStore();
+  const { cart, clearCart, getTotalQuantity } = useCartStore();
   const { user, logout } = useAuthStore();
   const token = localStorage.getItem("token");
 
@@ -22,7 +23,6 @@ const Header = () => {
   const handleProceedToCheckout = async () => {
     if (!token || !user) {
       toast.error("Please log in to proceed");
-      setCartOpen(false);
       navigate("/login");
       return;
     }
@@ -40,19 +40,22 @@ const Header = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           quantity: totalQuantity,
-          email: user.email 
+          email: user.email,
         }),
       });
 
       const data = await response.json();
       if (data.success && data.url) {
         // Store checkout session info for later cleanup
-        localStorage.setItem('checkout_session', JSON.stringify({
-          sessionId: data.sessionId,
-          quantity: totalQuantity
-        }));
+        localStorage.setItem(
+          "checkout_session",
+          JSON.stringify({
+            sessionId: data.sessionId,
+            quantity: totalQuantity,
+          })
+        );
         window.location.href = data.url;
       } else {
         throw new Error(data.message || "Something went wrong");
@@ -116,17 +119,14 @@ const Header = () => {
 
           {/* Right: Cart and Login/Logout */}
           <div className="flex items-center space-x-4 z-20">
-            <div
-              className="relative cursor-pointer"
-              onClick={() => setCartOpen(!isCartOpen)}
-            >
+            <Link to="/nfc-business-cards" className="relative cursor-pointer">
               <FiShoppingCart className="text-white" size={24} />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
-            </div>
+            </Link>
             <div className="hidden md:flex items-center space-x-6">
               {token && user ? (
                 <div className="relative">
@@ -228,61 +228,6 @@ const Header = () => {
                 </>
               )}
             </div>
-          </div>
-        )}
-
-        {/* Cart Modal */}
-        {isCartOpen && (
-          <div className="absolute right-4 top-20 bg-white text-black shadow-lg rounded-lg w-80 p-4 z-50">
-            <button
-              onClick={() => setCartOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-            >
-              <FiX size={20} />
-            </button>
-            <h3 className="text-lg font-semibold mb-2">Your Cart</h3>
-            {cart.length === 0 ? (
-              <p className="text-gray-500">Cart is empty.</p>
-            ) : (
-              <>
-                <ul className="space-y-2 mb-4">
-                  {cart.map((item) => (
-                    <li
-                      key={item.id}
-                      className="flex justify-between border-b pb-2"
-                    >
-                      <div>
-                        <p className="font-medium">{item.name}</p>
-                        <p className="text-sm text-gray-600">
-                          Qty: {item.quantity}
-                        </p>
-                      </div>
-                      <p className="font-semibold">${item.price * item.quantity}</p>
-                    </li>
-                  ))}
-                </ul>
-                <div className="border-t pt-2 mb-4">
-                  <p className="text-lg font-bold">
-                    Total: ${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <Link
-                    to="/cart"
-                    onClick={() => setCartOpen(false)}
-                    className="bg-gray-600 text-white px-4 py-2 rounded w-full text-center block hover:bg-gray-700"
-                  >
-                    View Cart
-                  </Link>
-                  <button
-                    onClick={handleProceedToCheckout}
-                    className="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700"
-                  >
-                    Proceed to Checkout
-                  </button>
-                </div>
-              </>
-            )}
           </div>
         )}
       </div>

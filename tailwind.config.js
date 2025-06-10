@@ -5,6 +5,9 @@ module.exports = {
   ],
  theme: {
   extend: {
+    fontFamily: {
+        sans: ['Poppins', 'sans-serif'],
+      },
     transform: ['group-hover'],
     keyframes: {
       fadeIn: {

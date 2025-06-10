@@ -15,9 +15,9 @@ import NfcBusinessCards from "./components/pages/NfcBusinessCards";
 import Contact from "./components/Contact";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import CartPage from "./pages/CartPage";
-import Dashboard from "./pages/Dashboard";
-import ThankYou from "./pages/ThankYou";
+// import CartPage from "./components/pages/CartPage";
+import Dashboard from "./components/pages/Dashboard";
+import ThankYou from "./components/pages/ThankYou";
 
 function HomePage() {
   return (
@@ -36,7 +36,7 @@ function HomePage() {
 
 function App() {
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full overflow-x-hidden font-sans">
       <Toaster position="top-center" />
       <Header />
       <Routes>
@@ -45,7 +45,7 @@ function App() {
         <Route path="/nfc-business-cards" element={<NfcBusinessCards />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<CartPage />} />
+        {/* <Route path="/cart" element={<CartPage />} /> */}
         <Route path="/success" element={<ThankYou />} />
         <Route
           path="/dashboard"

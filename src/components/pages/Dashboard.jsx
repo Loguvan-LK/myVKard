@@ -1,10 +1,10 @@
 // frontend/src/pages/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
-import { useAuthStore } from '../store/authStore';
-import { CreditCard, Globe, Plus, Trash, Edit, User, Eye, X, Upload, Download, Share2, Building } from 'lucide-react';
+import { useAuthStore } from '../../store/authStore';
+import { CreditCard, Globe, Plus, Trash, Edit, User, Eye, X, Upload, Download, Share2, Building, Mail, Phone, MapPin } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { BASE_URL } from "../config/config";
-import VisitingCard from '../components/VisitingCard'; // Import the external VisitingCard
+import { BASE_URL } from "../../config/config";
+import VisitingCard from '../VisitingCard';
 
 const Dashboard = () => {
   const { user, setUser } = useAuthStore();
@@ -105,9 +105,7 @@ const Dashboard = () => {
       const token = localStorage.getItem('token');
       const res = await fetch(`${BASE_URL}/api/upload-logo`, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
 
@@ -126,11 +124,10 @@ const Dashboard = () => {
     }
   };
 
-  const addCompanyProfile = async (e) => {
-    e.preventDefault();
+  const addCompanyProfile = async () => {
     if (!formData.companyName || !formData.companyLocation || 
         !formData.companyPhone || !formData.companyEmail) {
-      return toast.error('Company name, location, phone and email are required');
+      return toast.error('Company name, location, phone, and email are required');
     }
 
     setLoading(true);
@@ -160,11 +157,10 @@ const Dashboard = () => {
     }
   };
 
-  const updateCompanyProfile = async (e) => {
-    e.preventDefault();
+  const updateCompanyProfile = async () => {
     if (!formData.companyName || !formData.companyLocation || 
         !formData.companyPhone || !formData.companyEmail) {
-      return toast.error('Company name, location, phone and email are required');
+      return toast.error('Company name, location, phone, and email are required');
     }
 
     setLoading(true);
@@ -306,7 +302,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-6 sm:mb-8">
+        <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-6 sm:mb-8 animate-fade-in">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             Welcome, {user.email.split('@')[0]}!
           </h1>
@@ -325,7 +321,7 @@ const Dashboard = () => {
             <h2 className="text-xl sm:text-2xl font-bold">Your Company Profiles</h2>
             <button
               onClick={() => setShowAddForm(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center space-x-2 transition-colors w-full sm:w-auto"
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center space-x-2 transition-colors w-full sm:w-auto"
             >
               <Plus size={20} />
               <span>Add Company Profile</span>
@@ -343,7 +339,7 @@ const Dashboard = () => {
               {user.companyProfiles && user.companyProfiles.map((profile) => (
                 <div 
                   key={profile._id} 
-                  className={`border rounded-lg p-4 transition-all ${profile.isActive ? 'border-green-500 bg-green-50' : 'border-gray-200 hover:border-gray-300'}`}
+                  className={`border rounded-lg p-4 transition-all duration-300 hover:shadow-md ${profile.isActive ? 'border-green-500 bg-green-50' : 'border-gray-200'}`}
                 >
                   <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start space-y-4 lg:space-y-0">
                     <div className="flex-1">
@@ -374,21 +370,21 @@ const Dashboard = () => {
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
                         <div className="flex items-center space-x-2 min-w-0">
-                          <span>📧</span>
+                          <Mail size={16} className="text-gray-500 flex-shrink-0" />
                           <span className="truncate">{profile.companyEmail}</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <span>📞</span>
+                          <Phone size={16} className="text-gray-500 flex-shrink-0" />
                           <span>{profile.companyPhone}</span>
                         </div>
                         {profile.website && (
                           <div className="flex items-center space-x-2 min-w-0">
-                            <span>🌐</span>
+                            <Globe size={16} className="text-gray-500 flex-shrink-0" />
                             <span className="truncate">{profile.website}</span>
                           </div>
                         )}
                         <div className="flex items-center space-x-2 min-w-0">
-                          <span>📍</span>
+                          <MapPin size={16} className="text-gray-500 flex-shrink-0" />
                           <span className="truncate">{profile.companyLocation}</span>
                         </div>
                       </div>
@@ -397,7 +393,7 @@ const Dashboard = () => {
                     <div className="flex flex-row lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2 flex-shrink-0">
                       <button
                         onClick={() => handlePreview(profile)}
-                        className="flex-1 lg:flex-none p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors flex items-center justify-center"
+                        className="flex-1 lg:flex-none p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
                         title="Preview"
                       >
                         <Eye size={16} />
@@ -405,7 +401,7 @@ const Dashboard = () => {
                       </button>
                       <button
                         onClick={() => handleEdit(profile)}
-                        className="flex-1 lg:flex-none p-2 text-gray-600 hover:bg-gray-50 rounded transition-colors flex items-center justify-center"
+                        className="flex-1 lg:flex-none p-2 text-gray-600 hover:bg-gray-50 rounded transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
                         title="Edit"
                       >
                         <Edit size={16} />
@@ -414,7 +410,7 @@ const Dashboard = () => {
                       {!profile.isActive && (
                         <button
                           onClick={() => setActiveCompanyProfile(profile._id)}
-                          className="flex-1 lg:flex-none px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+                          className="flex-1 lg:flex-none px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
                           disabled={loading}
                         >
                           Set Active
@@ -422,7 +418,7 @@ const Dashboard = () => {
                       )}
                       <button
                         onClick={() => removeCompanyProfile(profile._id)}
-                        className="flex-1 lg:flex-none p-2 text-red-500 hover:bg-red-50 rounded transition-colors flex items-center justify-center"
+                        className="flex-1 lg:flex-none p-2 text-red-500 hover:bg-red-50 rounded transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
                         title="Delete"
                         disabled={loading}
                       >
@@ -437,261 +433,264 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Add/Edit Company Profile Form */}
-        {showAddForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-            <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-auto my-8 max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4 sm:mb-6">
-                <h3 className="text-lg sm:text-xl font-bold">
-                  {editingCompany ? 'Edit Company Profile' : 'Add New Company Profile'}
-                </h3>
-                <button
-                  onClick={resetForm}
-                  className="p-1 hover:bg-gray-100 rounded"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              
-              <form onSubmit={editingCompany ? updateCompanyProfile : addCompanyProfile} className="space-y-4 sm:space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Company Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="companyName"
-                      value={formData.companyName}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Company Location *
-                    </label>
-                    <input
-                      type="text"
-                      name="companyLocation"
-                      value={formData.companyLocation}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Company Phone *
-                    </label>
-                    <input
-                      type="tel"
-                      name="companyPhone"
-                      value={formData.companyPhone}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Company Email *
-                    </label>
-                    <input
-                      type="email"
-                      name="companyEmail"
-                      value={formData.companyEmail}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      required
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Website
-                    </label>
-                    <input
-                      type="url"
-                      name="website"
-                      value={formData.website}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="https://example.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Industry
-                    </label>
-                    <input
-                      type="text"
-                      name="industry"
-                      value={formData.industry}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="e.g., Technology"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Founded Year
-                    </label>
-                    <input
-                      type="number"
-                      name="foundedYear"
-                      value={formData.foundedYear}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="e.g., 2020"
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Employee Count
-                    </label>
-                    <input
-                      type="text"
-                      name="employeeCount"
-                      value={formData.employeeCount}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="e.g., 50-100"
-                    />
-                  </div>
-
-                  <div className="sm:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Description
-                    </label>
-                    <textarea
-                      name="description"
-                      value={formData.description}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      rows="3"
-                      placeholder="Brief company description"
-                    ></textarea>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Social Media
+        {/* Add/Edit Company Profile Modal */}
+        <div 
+          onClick={resetForm}
+          className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto transition-opacity duration-300 ${showAddForm ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className={`bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-auto my-8 max-h-[90vh] overflow-y-auto transform transition-all duration-300 ${showAddForm ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+          >
+            <div className="flex justify-between items-center mb-4 sm:mb-6">
+              <h3 className="text-lg sm:text-xl font-bold">
+                {editingCompany ? 'Edit Company Profile' : 'Add New Company Profile'}
+              </h3>
+              <button
+                onClick={resetForm}
+                className="p-1 hover:bg-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="space-y-4 sm:space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Company Name *
                   </label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-xs text-gray-500">Twitter/X</label>
-                      <input
-                        type="url"
-                        name="twitterX"
-                        value={formData.twitterX}
-                        onChange={handleInputChange}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="https://twitter.com/username"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs text-gray-500">LinkedIn</label>
-                      <input
-                        type="url"
-                        name="linkedin"
-                        value={formData.linkedin}
-                        onChange={handleInputChange}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="https://linkedin.com/company"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs text-gray-500">Facebook</label>
-                      <input
-                        type="url"
-                        name="facebook"
-                        value={formData.facebook}
-                        onChange={handleInputChange}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="https://facebook.com/page"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs text-gray-500">Instagram</label>
-                      <input
-                        type="url"
-                        name="instagram"
-                        value={formData.instagram}
-                        onChange={handleInputChange}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="https://instagram.com/username"
-                      />
-                    </div>
-                    <div className="sm:col-span-2">
-                      <label className="text-xs text-gray-500">YouTube</label>
-                      <input
-                        type="url"
-                        name="youtube"
-                        value={formData.youtube}
-                        onChange={handleInputChange}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="https://youtube.com/channel"
-                      />
-                    </div>
-                  </div>
+                  <input
+                    type="text"
+                    name="companyName"
+                    value={formData.companyName}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Logo
+                    Company Location *
                   </label>
-                  <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
-                    {formData.logo && (
-                      <img 
-                        src={formData.logo} 
-                        alt="Logo preview"
-                        className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                      />
-                    )}
-                    <div className="flex-1">
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleLogoUpload}
-                        className="w-full text-sm"
-                        disabled={uploading}
-                      />
-                      {uploading && (
-                        <p className="text-sm text-blue-600 mt-1">Uploading...</p>
-                      )}
-                    </div>
-                  </div>
+                  <input
+                    type="text"
+                    name="companyLocation"
+                    value={formData.companyLocation}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
                 </div>
 
-                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
-                  <button
-                    type="submit"
-                    disabled={loading || uploading}
-                    className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors"
-                  >
-                    {loading ? 'Saving...' : (editingCompany ? 'Update Profile' : 'Add Profile')}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={resetForm}
-                    className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 transition-colors"
-                  >
-                    Cancel
-                  </button>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Company Phone *
+                  </label>
+                  <input
+                    type="tel"
+                    name="companyPhone"
+                    value={formData.companyPhone}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
                 </div>
-              </form>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Company Email *
+                  </label>
+                  <input
+                    type="email"
+                    name="companyEmail"
+                    value={formData.companyEmail}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Website
+                  </label>
+                  <input
+                    type="url"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="https://example.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Industry
+                  </label>
+                  <input
+                    type="text"
+                    name="industry"
+                    value={formData.industry}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="e.g., Technology"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Founded Year
+                  </label>
+                  <input
+                    type="number"
+                    name="foundedYear"
+                    value={formData.foundedYear}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="e.g., 2020"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Employee Count
+                  </label>
+                  <input
+                    type="text"
+                    name="employeeCount"
+                    value={formData.employeeCount}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="e.g., 50-100"
+                  />
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Description
+                  </label>
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    rows="3"
+                    placeholder="Brief company description"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Social Media
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-gray-500">Twitter/X</label>
+                    <input
+                      type="url"
+                      name="twitterX"
+                      value={formData.twitterX}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="https://twitter.com/username"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500">LinkedIn</label>
+                    <input
+                      type="url"
+                      name="linkedin"
+                      value={formData.linkedin}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="https://linkedin.com/company"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500">Facebook</label>
+                    <input
+                      type="url"
+                      name="facebook"
+                      value={formData.facebook}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="https://facebook.com/page"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-gray-500">Instagram</label>
+                    <input
+                      type="url"
+                      name="instagram"
+                      value={formData.instagram}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="https://instagram.com/username"
+                    />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="text-xs text-gray-500">YouTube</label>
+                    <input
+                      type="url"
+                      name="youtube"
+                      value={formData.youtube}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="https://youtube.com/channel"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Logo
+                </label>
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
+                  {formData.logo && (
+                    <img 
+                      src={formData.logo} 
+                      alt="Logo preview"
+                      className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                    />
+                  )}
+                  <div className="flex-1">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLogoUpload}
+                      className="w-full text-sm"
+                      disabled={uploading}
+                    />
+                    {uploading && (
+                      <p className="text-sm text-blue-600 mt-1">Uploading...</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
+                <button
+                  onClick={editingCompany ? updateCompanyProfile : addCompanyProfile}
+                  disabled={loading || uploading}
+                  className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
+                >
+                  {loading ? 'Saving...' : (editingCompany ? 'Update Profile' : 'Add Profile')}
+                </button>
+                <button
+                  onClick={resetForm}
+                  className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
-        )}
+        </div>
 
         {/* Visiting Card Preview */}
         {showVisitingCard && previewCompany && (
@@ -707,5 +706,18 @@ const Dashboard = () => {
     </div>
   );
 };
+
+// Add custom animation styles
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+`;
+document.head.appendChild(styleSheet);
 
 export default Dashboard;

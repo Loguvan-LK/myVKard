@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import centerImage from "/assets/erasebg-transformed.png";
 import icon1 from "/assets/icon1.svg";
 import icon2 from "/assets/icon2.svg";
@@ -8,38 +8,75 @@ import icon5 from "/assets/icon5.svg";
 import bgImage from "/assets/BG-01 1.png";
 
 const ICONS = [
-  { icon: icon1, text: "NFC-enabled physical card", angle: -90 },
-  { icon: icon5, text: "One-tap contact sharing", angle: -150 },
-  { icon: icon2, text: "Custom digital profile page", angle: -30 },
-  { icon: icon4, text: "Unlimited updates and sharing", angle: 150 },
-  { icon: icon3, text: "Free onboarding support", angle: 30 },
+  { icon: icon1, text: "NFC-enabled physical card", angle: 0 },
+  { icon: icon5, text: "One-tap contact sharing", angle: 72 },
+  { icon: icon2, text: "Custom digital profile page", angle: 144 },
+  { icon: icon4, text: "Unlimited updates and sharing", angle: 216 },
+  { icon: icon3, text: "Free onboarding support", angle: 288 },
 ];
 
 const ProductSnapshot = () => {
-  const [radius, setRadius] = useState(240);
+  const [radius, setRadius] = useState(200); // Initial radius set higher
+  const [rotationAngle, setRotationAngle] = useState(0);
+  const containerRef = useRef(null);
 
-  // Adjust radius based on screen width
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width < 400) {
-        setRadius(130); // Smaller radius for 320px screens
-      } else if (width < 640) {
-        setRadius(170);
+      let baseRadius;
+      let iconHalfWidth;
+
+      if (width < 640) {
+        baseRadius = 100; // Increased from 80 for small screens
+        iconHalfWidth = 24; // w-12 = 48px / 2
+      } else if (width < 768) {
+        baseRadius = 120; // Increased from 100 for medium-small screens
+        iconHalfWidth = 32; // w-16 = 64px / 2
+      } else if (width < 1024) {
+        baseRadius = 160; // Increased from 140 for medium screens
+        iconHalfWidth = 40; // w-20 = 80px / 2
       } else {
-        setRadius(240);
+        baseRadius = 200; // Increased from 180 for large screens
+        iconHalfWidth = 48; // w-24 = 96px / 2
+      }
+
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.clientWidth;
+        const maxRadius = containerWidth / 2 - iconHalfWidth;
+        setRadius(Math.min(baseRadius, maxRadius));
+      } else {
+        setRadius(baseRadius);
       }
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    let animationFrameId;
+    let lastTime = 0;
+    const rotationSpeed = 0.5; // Degrees per frame
+
+    const animate = (time) => {
+      if (lastTime !== 0) {
+        const deltaTime = time - lastTime;
+        setRotationAngle(
+          (prev) => (prev + rotationSpeed * (deltaTime / 16)) % 360
+        );
+      }
+      lastTime = time;
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
   return (
     <section className="bg-white py-10 sm:py-12 relative">
-      <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="w-full max-w-[90%] mx-auto px-4 sm:px-6 text-center">
         <h2 className="text-2xl font-bold text-orange-600 mb-2">
           Product Snapshot
         </h2>
@@ -47,40 +84,41 @@ const ProductSnapshot = () => {
           NFC Digital Business Card
         </h2>
 
-        <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-6 sm:mb-10 max-w-3xl mx-auto">
+        <p className="text-sm sm:text-base md:text-lg text-gray-600 mb-8 sm:mb-12 max-w-3xl mx-auto">
           A sleek, contactless business card that works with any modern
           smartphone. Perfect for professionals, freelancers, and business
           teams.
         </p>
 
         <div
-          className="relative w-full aspect-square mx-auto"
+          ref={containerRef}
+          className="relative mx-auto aspect-square max-w-[600px] sm:max-w-[640px] md:max-w-[720px] lg:max-w-[800px] xl:max-w-[850px]"
           style={{
             backgroundImage: `url(${bgImage})`,
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
-            height: "auto", // Remove fixed 100vh height
-            maxHeight: "600px", // Optional: control max height
+            height: "auto",
           }}
         >
-          {/* Center Phone */}
           <img
             src={centerImage}
             alt="Phone"
-            className="absolute top-1/2 left-1/2 w-[70px] sm:w-[100px] md:w-[130px] lg:w-[150px] transform -translate-x-1/2 -translate-y-1/2 z-10"
+            className="absolute top-1/2 left-1/2 w-[40px] sm:w-[60px] md:w-[80px] lg:w-[100px] xl:w-[120px] transform -translate-x-1/2 -translate-y-1/2 z-10"
+            style={{ animation: "pulse 2s infinite" }}
           />
 
-          {/* Circular Icons */}
           {ICONS.map((item, index) => {
-            const angleRad = (item.angle * Math.PI) / 180;
-            const x = Math.cos(angleRad) * radius;
-            const y = Math.sin(angleRad) * radius;
+            const angleRad = ((item.angle + rotationAngle) * Math.PI) / 180;
+            // Add extra space (e.g., 32px) to the radius for spacing
+            const iconSpacing = 32; // Adjust this value as needed
+            const x = Math.cos(angleRad) * (radius + iconSpacing);
+            const y = Math.sin(angleRad) * (radius + iconSpacing);
 
             return (
               <div
                 key={index}
-                className="absolute text-center w-24 sm:w-32"
+                className="absolute text-center w-12 sm:w-16 md:w-20 lg:w-24"
                 style={{
                   top: `calc(50% + ${y}px)`,
                   left: `calc(50% + ${x}px)`,
@@ -89,10 +127,10 @@ const ProductSnapshot = () => {
               >
                 <img
                   src={item.icon}
-                  className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-1"
+                  className="w-full h-auto mx-auto mb-1"
                   alt={`Icon ${index + 1}`}
                 />
-                <p className="text-[clamp(0.6rem,1vw,0.85rem)] font-medium text-[#004672] truncate">
+                <p className="text-[clamp(0.6rem,1vw,0.85rem)] font-medium text-[#004672] text-center break-words whitespace-normal leading-snug">
                   {item.text}
                 </p>
               </div>
@@ -100,7 +138,6 @@ const ProductSnapshot = () => {
           })}
         </div>
 
-        {/* CTA Button */}
         <div className="mt-6 sm:mt-8">
           <a
             href="#"
