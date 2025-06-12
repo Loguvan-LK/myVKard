@@ -1,5 +1,5 @@
 import React from "react";
-import cardImage from "/assets/card-mockup.png";
+import cardImage from "/assets/2.png";
 import arrowSVG from "/assets/Vector.svg";
 import background from "/assets/Union.png";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import cardImage from "/assets/card-mockup.png";
+import cardImage from "/assets/cards-m.png";
 
 const testimonials = [
   {

@@ -4,7 +4,8 @@ import { BASE_URL } from "../config/config";
 
 export const loadCartFromBackend = async (token) => {
   try {
-    const res = await axios.get(`${BASE_URL}api/cart`, {
+    // Fixed URL - added missing slash
+    const res = await axios.get(`${BASE_URL}/api/cart`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
