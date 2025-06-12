@@ -1,9 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { X, Mail, Phone, Globe, MapPin, Download, Share2, Building, Twitter, Instagram, Facebook, Linkedin, Youtube } from 'lucide-react';
-import { Tilt } from 'react-tilt'
-
-import toast from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  X,
+  Mail,
+  Phone,
+  Globe,
+  MapPin,
+  Download,
+  Share2,
+  Building,
+  Twitter,
+  Instagram,
+  Facebook,
+  Linkedin,
+  Youtube,
+} from "lucide-react";
+import { Tilt } from "react-tilt";
+import { BASE_URL } from "../config/config";
+import toast from "react-hot-toast";
 
 const VisitingCard = ({ onClose, companyProfile }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -16,52 +30,82 @@ const VisitingCard = ({ onClose, companyProfile }) => {
   const saveCompanyContact = () => {
     const vcard = `BEGIN:VCARD
 VERSION:3.0
-FN:${companyProfile.companyName || 'Company Name'}
-ORG:${companyProfile.companyName || 'Company Name'}
-EMAIL:${companyProfile.companyEmail || ''}
-TEL:${companyProfile.companyPhone || ''}
-ADR:;;${companyProfile.companyLocation || ''};;;
-${companyProfile.website ? `URL:${companyProfile.website}` : ''}
-${companyProfile.linkedin ? `URL:${companyProfile.linkedin}` : ''}
-${companyProfile.facebook ? `URL:${companyProfile.facebook}` : ''}
-${companyProfile.instagram ? `URL:${companyProfile.instagram}` : ''}
-${companyProfile.twitterX ? `URL:${companyProfile.twitterX}` : ''}
-${companyProfile.youtube ? `URL:${companyProfile.youtube}` : ''}
-NOTE:Industry: ${companyProfile.industry || 'Business'}${companyProfile.description ? ' - ' + companyProfile.description : ''}
+FN:${companyProfile.companyName || "Company Name"}
+ORG:${companyProfile.companyName || "Company Name"}
+EMAIL:${companyProfile.companyEmail || ""}
+TEL:${companyProfile.companyPhone || ""}
+ADR:;;${companyProfile.companyLocation || ""};;;
+${companyProfile.website ? `URL:${companyProfile.website}` : ""}
+${companyProfile.linkedin ? `URL:${companyProfile.linkedin}` : ""}
+${companyProfile.facebook ? `URL:${companyProfile.facebook}` : ""}
+${companyProfile.instagram ? `URL:${companyProfile.instagram}` : ""}
+${companyProfile.twitterX ? `URL:${companyProfile.twitterX}` : ""}
+${companyProfile.youtube ? `URL:${companyProfile.youtube}` : ""}
+NOTE:Industry: ${companyProfile.industry || "Business"}${
+      companyProfile.description ? " - " + companyProfile.description : ""
+    }
 END:VCARD`;
 
-    const blob = new Blob([vcard], { type: 'text/vcard' });
+    const blob = new Blob([vcard], { type: "text/vcard" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `${companyProfile.companyName || 'company'}.vcf`;
+    a.download = `${companyProfile.companyName || "company"}.vcf`;
     a.click();
     window.URL.revokeObjectURL(url);
-    toast.success('Company contact saved to device!');
+    toast.success("Company contact saved to device!");
   };
 
   const shareCompany = () => {
     if (navigator.share) {
-      navigator.share({
-        title: companyProfile.companyName || 'Company Profile',
-        text: `Check out the company profile for ${companyProfile.companyName || 'this company'}`,
-        url: `${window.location.origin}/${companyProfile.uniqueId || ''}`
-      }).then(() => toast.success('Shared successfully!'))
-        .catch(() => toast.error('Failed to share. Copied to clipboard!'));
+      navigator
+        .share({
+          title: companyProfile.companyName || "Company Profile",
+          text: `Check out the company profile for ${
+            companyProfile.companyName || "this company"
+          }`,
+          url: `${window.location.origin}/${companyProfile.uniqueId || ""}`,
+        })
+        .then(() => toast.success("Shared successfully!"))
+        .catch(() => toast.error("Failed to share. Copied to clipboard!"));
     } else {
-      const companyText = `${companyProfile.companyName || ''}\n${companyProfile.companyEmail || ''}\n${companyProfile.companyPhone || ''}\n${companyProfile.companyLocation || ''}`;
+      const companyText = `${companyProfile.companyName || ""}\n${
+        companyProfile.companyEmail || ""
+      }\n${companyProfile.companyPhone || ""}\n${
+        companyProfile.companyLocation || ""
+      }`;
       navigator.clipboard.writeText(companyText);
-      toast.success('Company details copied to clipboard!');
+      toast.success("Company details copied to clipboard!");
     }
   };
 
   const socialLinks = [
-    { platform: 'linkedin', url: companyProfile.linkedin, icon: <Linkedin className="w-5 h-5" /> },
-    { platform: 'facebook', url: companyProfile.facebook, icon: <Facebook className="w-5 h-5" /> },
-    { platform: 'instagram', url: companyProfile.instagram, icon: <Instagram className="w-5 h-5" /> },
-    { platform: 'twitterX', url: companyProfile.twitterX, icon: <Twitter className="w-5 h-5" /> },
-    { platform: 'youtube', url: companyProfile.youtube, icon: <Youtube className="w-5 h-5" /> },
-  ].filter(link => link.url);
+    {
+      platform: "linkedin",
+      url: companyProfile.linkedin,
+      icon: <Linkedin className="w-5 h-5" />,
+    },
+    {
+      platform: "facebook",
+      url: companyProfile.facebook,
+      icon: <Facebook className="w-5 h-5" />,
+    },
+    {
+      platform: "instagram",
+      url: companyProfile.instagram,
+      icon: <Instagram className="w-5 h-5" />,
+    },
+    {
+      platform: "twitterX",
+      url: companyProfile.twitterX,
+      icon: <Twitter className="w-5 h-5" />,
+    },
+    {
+      platform: "youtube",
+      url: companyProfile.youtube,
+      icon: <Youtube className="w-5 h-5" />,
+    },
+  ].filter((link) => link.url);
 
   return (
     <>
@@ -93,7 +137,7 @@ END:VCARD`;
             className="relative card-bg rounded-2xl p-6 sm:p-8 card-shadow"
             initial={{ scale: 0.8, y: 100, rotateX: 10 }}
             animate={{ scale: 1, y: 0, rotateX: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -110,7 +154,7 @@ END:VCARD`;
               <div className="flex items-start gap-4 mb-6">
                 {companyProfile.logo ? (
                   <img
-                    src={companyProfile.logo}
+                    src={`${BASE_URL}${companyProfile.logo}`}
                     alt={`${companyProfile.companyName} logo`}
                     className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover"
                   />
@@ -121,10 +165,10 @@ END:VCARD`;
                 )}
                 <div className="flex-1 min-w-0">
                   <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white truncate">
-                    {companyProfile.companyName || 'Sample Company'}
+                    {companyProfile.companyName || "Sample Company"}
                   </h2>
                   <p className="text-sm sm:text-base text-white/80 truncate">
-                    {companyProfile.industry || 'Technology Solutions'}
+                    {companyProfile.industry || "Technology Solutions"}
                   </p>
                 </div>
               </div>
@@ -134,19 +178,19 @@ END:VCARD`;
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-white/70 flex-shrink-0" />
                   <span className="text-white/90 truncate">
-                    {companyProfile.companyEmail || 'contact@samplecompany.com'}
+                    {companyProfile.companyEmail || "contact@samplecompany.com"}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-white/70 flex-shrink-0" />
                   <span className="text-white/90">
-                    {companyProfile.companyPhone || '+1 (555) 123-4567'}
+                    {companyProfile.companyPhone || "+1 (555) 123-4567"}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-white/70 flex-shrink-0" />
                   <span className="text-white/90 truncate">
-                    {companyProfile.companyLocation || 'New York, NY'}
+                    {companyProfile.companyLocation || "New York, NY"}
                   </span>
                 </div>
                 {companyProfile.website && (
@@ -188,7 +232,10 @@ END:VCARD`;
                 <motion.button
                   onClick={saveCompanyContact}
                   className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2 transition-colors"
-                  whileHover={{ scale: 1.05, boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)' }}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 0 10px rgba(59, 130, 246, 0.5)",
+                  }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <Download className="w-5 h-5" />
@@ -197,7 +244,10 @@ END:VCARD`;
                 <motion.button
                   onClick={shareCompany}
                   className="flex-1 bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 flex items-center justify-center gap-2 transition-colors"
-                  whileHover={{ scale: 1.05, boxShadow: '0 0 10px rgba(34, 197, 94, 0.5)' }}
+                  whileHover={{
+                    scale: 1.05,
+                    boxShadow: "0 0 10px rgba(34, 197, 94, 0.5)",
+                  }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <Share2 className="w-5 h-5" />

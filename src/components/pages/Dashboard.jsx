@@ -15,6 +15,7 @@ const Dashboard = () => {
   const [previewCompany, setPreviewCompany] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
+    userProfile: '',
     companyName: '',
     companyLocation: '',
     companyPhone: '',
@@ -56,6 +57,7 @@ const Dashboard = () => {
 
   const resetForm = () => {
     setFormData({
+      userProfile: '',
       companyName: '',
       companyLocation: '',
       companyPhone: '',
@@ -252,6 +254,7 @@ const Dashboard = () => {
   const handleEdit = (companyProfile) => {
     setEditingCompany(companyProfile);
     setFormData({
+      userProfile: companyProfile.userProfile || '',
       companyName: companyProfile.companyName,
       companyLocation: companyProfile.companyLocation,
       companyPhone: companyProfile.companyPhone,
@@ -310,7 +313,16 @@ const Dashboard = () => {
           <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6">
             <div className="flex items-center space-x-2">
               <Globe className="h-5 w-5 text-green-600 flex-shrink-0" />
-              <span className="text-sm break-all">Card URL: myvkard-backend-omrh.onrender.com/api/{user.uniqueId}</span>
+<span className="text-sm break-all">
+  Card URL: <a 
+    href={`${BASE_URL}/api/${user.uniqueId}`} 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    className="text-blue-500 underline"
+  >
+    {`${BASE_URL}/api/${user.uniqueId}`}
+  </a>
+</span>
             </div>
           </div>
         </div>
@@ -346,10 +358,10 @@ const Dashboard = () => {
                       <div className="flex items-center space-x-3 mb-3">
                         {profile.logo ? (
                           <img 
-                            src={profile.logo} 
-                            alt={`${profile.companyName} logo`}
-                            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0"
-                          />
+  src={`${BASE_URL}${profile.logo}`} 
+  alt={`${profile.companyName} logo`}
+  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0"
+/>
                         ) : (
                           <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
                             {profile.companyName.charAt(0).toUpperCase()}
@@ -444,7 +456,7 @@ const Dashboard = () => {
           >
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <h3 className="text-lg sm:text-xl font-bold">
-                {editingCompany ? 'Edit Company Profile' : 'Add New Company Profile'}
+                {editingCompany ? 'Edit Profile' : 'Add New Profile'}
               </h3>
               <button
                 onClick={resetForm}
@@ -456,6 +468,19 @@ const Dashboard = () => {
             
             <div className="space-y-4 sm:space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="sm:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    User Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="userProfile"
+                    value={formData.userProfile}
+                    onChange={handleInputChange}
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                </div>
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Company Name *
@@ -484,19 +509,38 @@ const Dashboard = () => {
                   />
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Company Phone *
-                  </label>
-                  <input
-                    type="tel"
-                    name="companyPhone"
-                    value={formData.companyPhone}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
+<div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Company Phone *
+  </label>
+  <input
+    type="number"
+    name="companyPhone"
+    value={formData.companyPhone}
+    onChange={(e) => {
+      // Remove non-digits
+      const value = e.target.value.replace(/[^\d]/g, '');
+      
+      // Allow only up to 10 digits
+      if (value.length <= 10) {
+        setFormData((prev) => ({ ...prev, companyPhone: value }));
+      }
+    }}
+    onKeyDown={(e) => {
+      if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }}
+    inputMode="numeric"
+    pattern="[0-9]*"
+    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+    required
+  />
+  {formData.companyPhone.length > 0 && formData.companyPhone.length < 10 && (
+    <p className="text-xs text-gray-500 mt-1">Phone number can be less than 10 digits but not more.</p>
+  )}
+</div>
+
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
