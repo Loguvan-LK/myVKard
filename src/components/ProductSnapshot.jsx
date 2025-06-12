@@ -57,7 +57,7 @@ const ProductSnapshot = () => {
   useEffect(() => {
     let animationFrameId;
     let lastTime = 0;
-    const rotationSpeed = 0.5; // Degrees per frame
+    const rotationSpeed = 0.1; // Degrees per frame
 
     const animate = (time) => {
       if (lastTime !== 0) {

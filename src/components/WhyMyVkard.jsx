@@ -62,7 +62,7 @@ const WhyMyVkard = () => {
           {/* Card Image */}
           <div className="relative mt-2 lg:mt-6">
             <img
-              src="/assets/card-mockup-2.png"
+              src="/assets/card-hero-sec.png"
               alt="Mockup Card"
               className="w-full max-w-[80vw] sm:max-w-[500px] lg:max-w-[600px] xl:max-w-[700px] relative z-10 lg:-mb-40"
               onError={() => console.error("Failed to load card image")}

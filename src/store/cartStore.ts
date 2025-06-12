@@ -72,3 +72,16 @@ export const useCartStore = create<CartState>()(
     }
   )
 );
+const persistGuestCart = (cart) => {
+  if (!localStorage.getItem('token')) {
+    localStorage.setItem('guestCart', JSON.stringify(cart));
+  }
+};
+
+const loadGuestCart = () => {
+  if (!localStorage.getItem('token')) {
+    const guestCart = localStorage.getItem('guestCart');
+    return guestCart ? JSON.parse(guestCart) : [];
+  }
+  return [];
+};
