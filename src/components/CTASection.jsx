@@ -234,7 +234,7 @@ const CTASection = () => {
                   <FiStar className="text-orange-400" />
                 </motion.div>
               </div>
-              <h2 className="text-2xl font-bold text-white mb-3">XYZ</h2>
+              <h2 className="text-2xl font-bold text-white mb-3">$50</h2>
               <motion.div
                 className="inline-block bg-orange-500 text-xs uppercase font-medium px-2 py-1 rounded mb-4"
                 animate={{
