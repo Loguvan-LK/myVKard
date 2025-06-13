@@ -13,22 +13,22 @@ const CTASection = () => {
   const cardRef = useRef(null);
 
   // Check if product is already in cart
-  const isInCart = cart.some(item => item.id === "nfc-001");
+  const isInCart = cart.some((item) => item.id === "nfc-001");
 
-    const handleAddToCart = () => {
+  const handleAddToCart = () => {
     if (isInCart) {
       setCartOpen(true);
       toast.success("🛒 Opening your cart!");
       return;
     }
 
-const product = {
+    const product = {
       id: "nfc-001",
       name: "NFC Business Card",
       price: 50,
       quantity: 1,
       imageUrl: "/assets/NFC-card.png", // Add image URL
-      description: "Premium NFC-enabled business card with lifetime access"
+      description: "Premium NFC-enabled business card with lifetime access",
     };
 
     setIsAdding(true);
@@ -43,14 +43,14 @@ const product = {
     // Enhanced confetti effect
     const count = 200;
     const defaults = {
-      origin: { y: 0.7 }
+      origin: { y: 0.7 },
     };
 
     function fire(particleRatio, opts) {
       confetti({
         ...defaults,
         ...opts,
-        particleCount: Math.floor(count * particleRatio)
+        particleCount: Math.floor(count * particleRatio),
       });
     }
 
@@ -66,14 +66,14 @@ const product = {
     fire(0.35, {
       spread: 100,
       decay: 0.91,
-      scalar: 0.8
+      scalar: 0.8,
     });
 
     fire(0.1, {
       spread: 120,
       startVelocity: 25,
       decay: 0.92,
-      scalar: 1.2
+      scalar: 1.2,
     });
 
     fire(0.1, {
@@ -85,7 +85,7 @@ const product = {
     setTimeout(() => {
       setIsAdding(false);
     }, 2000);
-    
+
     setTimeout(() => {
       setFlyToCart(false);
     }, 1000);
@@ -125,16 +125,20 @@ const product = {
       />
 
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div 
+        <motion.div
           className="flex justify-center mb-6"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <img src="/assets/Logo.svg" alt="MyVkard Logo" className="h-16 w-auto" />
+          <img
+            src="/assets/Logo.svg"
+            alt="MyVkard Logo"
+            className="h-16 w-auto"
+          />
         </motion.div>
 
-        <motion.h2 
+        <motion.h2
           className="text-3xl sm:text-4xl font-bold mb-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -142,83 +146,93 @@ const product = {
         >
           Make Every Connection Count
         </motion.h2>
-        
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <p className="text-lg mb-1">Join thousands of professionals using MyVkard to upgrade how they network. Smart. Seamless.</p>
+          <p className="text-lg mb-1">
+            Join thousands of professionals using MyVkard to upgrade how they
+            network. Smart. Seamless.
+          </p>
           <p className="text-lg mb-8">Paperless.</p>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           className="flex flex-col md:flex-row gap-8 justify-center items-stretch mb-12"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
           {/* Left Card */}
-          <motion.div 
-            className="w-full md:w-[40%] bg-[#fff5f7] rounded-xl relative shadow-lg flex flex-col justify-start px-6 py-8 min-h-[260px]"
-            whileHover={{ 
-              scale: 1.02,
-              boxShadow: "0 20px 40px rgba(0,0,0,0.1)"
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="text-left text-[#004672] z-10 flex-grow pr-32">
-              <h2 className="text-2xl font-bold leading-tight mb-4">
-                Join<br /><span className="text-[#0d1b2a]">MyVkard</span>
-              </h2>
-              <p className="text-gray-700 text-lg leading-relaxed font-bold">
-                Get your personalized digital business card today and start making memorable first impressions.
-              </p>
-            </div>
-            <div className="absolute right-[-60px] bottom-[-10px] z-0 hidden md:block">
-              <motion.img 
-                ref={cardRef} 
-                src="/assets/JoinMyVkard.png" 
-                alt="Card" 
-                className="w-[250px] rotate-[-5deg] drop-shadow-xl"
-                animate={pulseEffect ? {
-                  scale: [1, 1.1, 1],
-                  rotate: [-5, 0, -5],
-                } : {}}
-                transition={{ duration: 0.6 }}
-                whileHover={{
-                  scale: 1.05,
-                  rotate: 0,
-                  transition: { duration: 0.3 }
-                }}
-              />
-            </div>
-            <div className="md:hidden mt-4 flex justify-center">
-              <motion.img 
-                src="/assets/JoinMyVkard.png" 
-                alt="Card" 
-                className="w-[220px] rotate-[-5deg] drop-shadow-xl"
-                whileHover={{
-                  scale: 1.05,
-                  rotate: 0,
-                  transition: { duration: 0.3 }
-                }}
-              />
-            </div>
-          </motion.div>
+         <motion.div
+  className="w-full md:w-[40%] bg-[#fff5f7] rounded-xl relative shadow-lg flex flex-col justify-start px-6 py-8 min-h-[260px] overflow-hidden"
+  whileHover={{
+    scale: 1.02,
+    boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+  }}
+  transition={{ duration: 0.3 }}
+>
+  <div className="text-left text-[#004672] z-10 flex-grow pr-56"> {/* Increased right padding */}
+    <h2 className="text-2xl font-bold leading-tight mb-4">
+      Join
+      <br />
+      <span className="text-[#0d1b2a]">MyVkard</span>
+    </h2>
+    <p className="text-gray-700 text-lg leading-relaxed">
+      Get your personalized digital business card today and start
+      making memorable first impressions.
+    </p>
+  </div>
+
+  <div className="absolute right-[-80px] bottom-[-20px] z-0 hidden md:block">
+    <motion.img
+      ref={cardRef}
+      src="/assets/cards-m.png"
+      alt="Card"
+      className="w-[350px] rotate-[-5deg] drop-shadow-xl"
+      animate={
+        pulseEffect
+          ? {
+              scale: [1, 1.1, 1],
+              rotate: [-5, 0, -5],
+            }
+          : {}
+      }
+      transition={{ duration: 0.6 }}
+    />
+  </div>
+
+  <div className="md:hidden mt-4 flex justify-center">
+    <motion.img
+      src="/assets/cards-m.png"
+      alt="Card"
+      className="w-[220px] rotate-[-5deg] drop-shadow-xl"
+      whileHover={{
+        scale: 1.05,
+        rotate: 0,
+        transition: { duration: 0.3 },
+      }}
+    />
+  </div>
+</motion.div>
+
 
           {/* Right Card */}
-          <motion.div 
+          <motion.div
             className="w-full md:w-1/2 bg-[#1e1e1e] rounded-xl p-6 shadow-lg text-left text-white flex flex-col justify-between"
-            whileHover={{ 
+            whileHover={{
               scale: 1.02,
-              boxShadow: "0 20px 40px rgba(0,0,0,0.3)"
+              boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
             }}
             transition={{ duration: 0.3 }}
           >
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-sm uppercase text-gray-300">Lifetime Access</h3>
+                <h3 className="text-sm uppercase text-gray-300">
+                  Lifetime Access
+                </h3>
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
@@ -227,7 +241,7 @@ const product = {
                 </motion.div>
               </div>
               <h2 className="text-2xl font-bold text-white mb-3">XYZ</h2>
-              <motion.div 
+              <motion.div
                 className="inline-block bg-orange-500 text-xs uppercase font-medium px-2 py-1 rounded mb-4"
                 animate={{
                   boxShadow: [
@@ -242,7 +256,7 @@ const product = {
               >
                 exclusive
               </motion.div>
-              <motion.ul 
+              <motion.ul
                 className="space-y-2 text-sm text-gray-200 bg-[#2a2a2a] p-4 rounded-lg mb-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -250,16 +264,16 @@ const product = {
               >
                 {[
                   "Premium card design",
-                  "Advanced analytics & tap insights", 
+                  "Advanced analytics & tap insights",
                   "Unlimited profile edits",
-                  "Priority support"
+                  "Priority support",
                 ].map((item, index) => (
-                  <motion.li 
+                  <motion.li
                     key={index}
                     className="flex items-center gap-2"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 1 + (index * 0.1) }}
+                    transition={{ duration: 0.4, delay: 1 + index * 0.1 }}
                   >
                     <FiCheckCircle className="text-orange-400" />
                     {item}
@@ -285,7 +299,7 @@ const product = {
                 transition={{ duration: 0.3 }}
                 style={{ zIndex: -1 }}
               />
-              
+
               {/* Button content */}
               <AnimatePresence mode="wait">
                 {isAdding ? (
@@ -298,7 +312,11 @@ const product = {
                   >
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
                     >
                       <FiShoppingCart />
                     </motion.div>
@@ -314,10 +332,10 @@ const product = {
                     <motion.div
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
-                      transition={{ 
+                      transition={{
                         type: "spring",
                         stiffness: 500,
-                        damping: 30 
+                        damping: 30,
                       }}
                     >
                       <FiCheckCircle />
@@ -354,10 +372,10 @@ const product = {
                 rotate: [-5, 15, 30],
               }}
               exit={{ opacity: 0 }}
-              transition={{ 
+              transition={{
                 duration: 1,
                 times: [0, 0.6, 1],
-                ease: "easeOut"
+                ease: "easeOut",
               }}
               className="w-[120px] fixed bottom-32 left-[10%] pointer-events-none z-50"
             />
