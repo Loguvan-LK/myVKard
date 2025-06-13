@@ -358,7 +358,7 @@ const Dashboard = () => {
                       <div className="flex items-center space-x-3 mb-3">
                         {profile.logo ? (
                           <img 
-  src={`${BASE_URL}${profile.logo}`} 
+  src={`${profile.logo}`} 
   alt={`${profile.companyName} logo`}
   className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0"
 />

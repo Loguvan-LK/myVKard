@@ -154,7 +154,7 @@ END:VCARD`;
               <div className="flex items-start gap-4 mb-6">
                 {companyProfile.logo ? (
                   <img
-                    src={`${BASE_URL}${companyProfile.logo}`}
+                    src={`${companyProfile.logo}`}
                     alt={`${companyProfile.companyName} logo`}
                     className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover"
                   />
