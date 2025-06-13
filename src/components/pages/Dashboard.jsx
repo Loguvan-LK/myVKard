@@ -1,10 +1,26 @@
 // frontend/src/pages/Dashboard.jsx
-import React, { useState, useEffect } from 'react';
-import { useAuthStore } from '../../store/authStore';
-import { CreditCard, Globe, Plus, Trash, Edit, User, Eye, X, Upload, Download, Share2, Building, Mail, Phone, MapPin } from 'lucide-react';
-import toast from 'react-hot-toast';
+import React, { useState, useEffect } from "react";
+import { useAuthStore } from "../../store/authStore";
+import {
+  CreditCard,
+  Globe,
+  Plus,
+  Trash,
+  Edit,
+  User,
+  Eye,
+  X,
+  Upload,
+  Download,
+  Share2,
+  Building,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
+import toast from "react-hot-toast";
 import { BASE_URL } from "../../config/config";
-import VisitingCard from '../VisitingCard';
+import VisitingCard from "../VisitingCard";
 
 const Dashboard = () => {
   const { user, setUser } = useAuthStore();
@@ -15,29 +31,29 @@ const Dashboard = () => {
   const [previewCompany, setPreviewCompany] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
-    userProfile: '',
-    companyName: '',
-    companyLocation: '',
-    companyPhone: '',
-    companyEmail: '',
-    website: '',
-    twitterX: '',
-    youtube: '',
-    instagram: '',
-    facebook: '',
-    linkedin: '',
-    description: '',
-    industry: '',
-    foundedYear: '',
-    employeeCount: '',
-    logo: ''
+    userProfile: "",
+    companyName: "",
+    companyLocation: "",
+    companyPhone: "",
+    companyEmail: "",
+    website: "",
+    twitterX: "",
+    youtube: "",
+    instagram: "",
+    facebook: "",
+    linkedin: "",
+    description: "",
+    industry: "",
+    foundedYear: "",
+    employeeCount: "",
+    logo: "",
   });
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) return;
-      
+
       try {
         const res = await fetch(`${BASE_URL}/api/user`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -46,10 +62,10 @@ const Dashboard = () => {
         if (res.ok) {
           setUser(data.user);
         } else {
-          console.error('Failed to fetch user data:', data.message);
+          console.error("Failed to fetch user data:", data.message);
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
     fetchUserData();
@@ -57,22 +73,22 @@ const Dashboard = () => {
 
   const resetForm = () => {
     setFormData({
-      userProfile: '',
-      companyName: '',
-      companyLocation: '',
-      companyPhone: '',
-      companyEmail: '',
-      website: '',
-      twitterX: '',
-      youtube: '',
-      instagram: '',
-      facebook: '',
-      linkedin: '',
-      description: '',
-      industry: '',
-      foundedYear: '',
-      employeeCount: '',
-      logo: ''
+      userProfile: "",
+      companyName: "",
+      companyLocation: "",
+      companyPhone: "",
+      companyEmail: "",
+      website: "",
+      twitterX: "",
+      youtube: "",
+      instagram: "",
+      facebook: "",
+      linkedin: "",
+      description: "",
+      industry: "",
+      foundedYear: "",
+      employeeCount: "",
+      logo: "",
     });
     setShowAddForm(false);
     setEditingCompany(null);
@@ -81,7 +97,7 @@ const Dashboard = () => {
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -89,56 +105,62 @@ const Dashboard = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please select an image file');
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
       return;
     }
 
     if (file.size > 2 * 1024 * 1024) {
-      toast.error('File size should be less than 2MB');
+      toast.error("File size should be less than 2MB");
       return;
     }
 
     setUploading(true);
     try {
       const formData = new FormData();
-      formData.append('logo', file);
+      formData.append("logo", file);
 
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const res = await fetch(`${BASE_URL}/api/upload-logo`, {
-        method: 'POST',
+        method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
 
       const data = await res.json();
       if (res.ok) {
-        setFormData(prev => ({ ...prev, logo: data.logoUrl }));
-        toast.success('Logo uploaded successfully');
+        setFormData((prev) => ({ ...prev, logo: data.logoUrl }));
+        toast.success("Logo uploaded successfully");
       } else {
-        toast.error(data.message || 'Failed to upload logo');
+        toast.error(data.message || "Failed to upload logo");
       }
     } catch (error) {
-      console.error('Logo upload error:', error);
-      toast.error('Failed to upload logo');
+      console.error("Logo upload error:", error);
+      toast.error("Failed to upload logo");
     } finally {
       setUploading(false);
     }
   };
 
   const addCompanyProfile = async () => {
-    if (!formData.companyName || !formData.companyLocation || 
-        !formData.companyPhone || !formData.companyEmail) {
-      return toast.error('Company name, location, phone, and email are required');
+    if (
+      !formData.companyName ||
+      !formData.companyLocation ||
+      !formData.companyPhone ||
+      !formData.companyEmail
+    ) {
+      return toast.error(
+        "Company name, location, phone, and email are required"
+      );
     }
 
     setLoading(true);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       const res = await fetch(`${BASE_URL}/api/add-company-profile`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
@@ -147,64 +169,73 @@ const Dashboard = () => {
       if (res.ok) {
         setUser(data.user);
         resetForm();
-        toast.success('Company profile added successfully');
+        toast.success("Company profile added successfully");
       } else {
-        toast.error(data.message || 'Failed to add company profile');
+        toast.error(data.message || "Failed to add company profile");
       }
     } catch (error) {
-      console.error('Add company profile error:', error);
-      toast.error('Failed to add company profile');
+      console.error("Add company profile error:", error);
+      toast.error("Failed to add company profile");
     } finally {
       setLoading(false);
     }
   };
 
   const updateCompanyProfile = async () => {
-    if (!formData.companyName || !formData.companyLocation || 
-        !formData.companyPhone || !formData.companyEmail) {
-      return toast.error('Company name, location, phone, and email are required');
+    if (
+      !formData.companyName ||
+      !formData.companyLocation ||
+      !formData.companyPhone ||
+      !formData.companyEmail
+    ) {
+      return toast.error(
+        "Company name, location, phone, and email are required"
+      );
     }
 
     setLoading(true);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       const res = await fetch(`${BASE_URL}/api/update-company-profile`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           profileId: editingCompany._id,
-          ...formData
+          ...formData,
         }),
       });
       const data = await res.json();
       if (res.ok) {
         setUser(data.user);
         resetForm();
-        toast.success('Company profile updated successfully');
+        toast.success("Company profile updated successfully");
       } else {
-        toast.error(data.message || 'Failed to update company profile');
+        toast.error(data.message || "Failed to update company profile");
       }
     } catch (error) {
-      console.error('Update company profile error:', error);
-      toast.error('Failed to update company profile');
+      console.error("Update company profile error:", error);
+      toast.error("Failed to update company profile");
     } finally {
       setLoading(false);
     }
   };
 
   const removeCompanyProfile = async (profileId) => {
-    if (!window.confirm('Are you sure you want to remove this company profile?')) return;
+    if (
+      !window.confirm("Are you sure you want to remove this company profile?")
+    )
+      return;
 
     setLoading(true);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       const res = await fetch(`${BASE_URL}/api/remove-company-profile`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ profileId }),
@@ -212,13 +243,13 @@ const Dashboard = () => {
       const data = await res.json();
       if (res.ok) {
         setUser(data.user);
-        toast.success('Company profile removed successfully');
+        toast.success("Company profile removed successfully");
       } else {
-        toast.error(data.message || 'Failed to remove company profile');
+        toast.error(data.message || "Failed to remove company profile");
       }
     } catch (error) {
-      console.error('Remove company profile error:', error);
-      toast.error('Failed to remove company profile');
+      console.error("Remove company profile error:", error);
+      toast.error("Failed to remove company profile");
     } finally {
       setLoading(false);
     }
@@ -226,12 +257,12 @@ const Dashboard = () => {
 
   const setActiveCompanyProfile = async (profileId) => {
     setLoading(true);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     try {
       const res = await fetch(`${BASE_URL}/api/set-active-company-profile`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ profileId }),
@@ -239,13 +270,13 @@ const Dashboard = () => {
       const data = await res.json();
       if (res.ok) {
         setUser(data.user);
-        toast.success('Active company profile set successfully');
+        toast.success("Active company profile set successfully");
       } else {
-        toast.error(data.message || 'Failed to set active company profile');
+        toast.error(data.message || "Failed to set active company profile");
       }
     } catch (error) {
-      console.error('Set active company profile error:', error);
-      toast.error('Failed to set active company profile');
+      console.error("Set active company profile error:", error);
+      toast.error("Failed to set active company profile");
     } finally {
       setLoading(false);
     }
@@ -254,22 +285,22 @@ const Dashboard = () => {
   const handleEdit = (companyProfile) => {
     setEditingCompany(companyProfile);
     setFormData({
-      userProfile: companyProfile.userProfile || '',
+      userProfile: companyProfile.userProfile || "",
       companyName: companyProfile.companyName,
       companyLocation: companyProfile.companyLocation,
       companyPhone: companyProfile.companyPhone,
       companyEmail: companyProfile.companyEmail,
-      website: companyProfile.website || '',
-      twitterX: companyProfile.twitterX || '',
-      youtube: companyProfile.youtube || '',
-      instagram: companyProfile.instagram || '',
-      facebook: companyProfile.facebook || '',
-      linkedin: companyProfile.linkedin || '',
-      description: companyProfile.description || '',
-      industry: companyProfile.industry || '',
-      foundedYear: companyProfile.foundedYear || '',
-      employeeCount: companyProfile.employeeCount || '',
-      logo: companyProfile.logo || ''
+      website: companyProfile.website || "",
+      twitterX: companyProfile.twitterX || "",
+      youtube: companyProfile.youtube || "",
+      instagram: companyProfile.instagram || "",
+      facebook: companyProfile.facebook || "",
+      linkedin: companyProfile.linkedin || "",
+      description: companyProfile.description || "",
+      industry: companyProfile.industry || "",
+      foundedYear: companyProfile.foundedYear || "",
+      employeeCount: companyProfile.employeeCount || "",
+      logo: companyProfile.logo || "",
     });
     setShowAddForm(true);
   };
@@ -284,7 +315,9 @@ const Dashboard = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
         <div className="text-center">
           <User className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600 text-center">Please log in to access your dashboard.</p>
+          <p className="text-gray-600 text-center">
+            Please log in to access your dashboard.
+          </p>
         </div>
       </div>
     );
@@ -295,7 +328,9 @@ const Dashboard = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
         <div className="text-center">
           <CreditCard className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600 text-center">Please purchase an NFC card to manage company profiles.</p>
+          <p className="text-gray-600 text-center">
+            Please purchase an NFC card to manage company profiles.
+          </p>
         </div>
       </div>
     );
@@ -307,22 +342,23 @@ const Dashboard = () => {
         {/* Header */}
         <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-6 sm:mb-8 animate-fade-in">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-            Welcome, {user.email.split('@')[0]}!
+            Welcome, {user.email.split("@")[0]}!
           </h1>
           <p className="text-gray-600 mb-4">Manage your company profiles</p>
           <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-6">
             <div className="flex items-center space-x-2">
               <Globe className="h-5 w-5 text-green-600 flex-shrink-0" />
-<span className="text-sm break-all">
-  Card URL: <a 
-    href={`${BASE_URL}/api/${user.uniqueId}`} 
-    target="_blank" 
-    rel="noopener noreferrer" 
-    className="text-blue-500 underline"
-  >
-    {`${BASE_URL}/api/${user.uniqueId}`}
-  </a>
-</span>
+              <span className="text-sm break-all">
+                Card URL:{" "}
+                <a
+                  href={`${BASE_URL}/api/${user.uniqueId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline"
+                >
+                  {`${BASE_URL}/api/${user.uniqueId}`}
+                </a>
+              </span>
             </div>
           </div>
         </div>
@@ -330,7 +366,9 @@ const Dashboard = () => {
         {/* Company Profiles List */}
         <div className="bg-white rounded-lg shadow p-4 sm:p-6 mb-6">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 sm:mb-6 space-y-3 sm:space-y-0">
-            <h2 className="text-xl sm:text-2xl font-bold">Your Company Profiles</h2>
+            <h2 className="text-xl sm:text-2xl font-bold">
+              Your Company Profiles
+            </h2>
             <button
               onClick={() => setShowAddForm(true)}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center space-x-2 transition-colors w-full sm:w-auto"
@@ -344,119 +382,154 @@ const Dashboard = () => {
             <div className="text-center py-8">
               <Building className="h-12 w-12 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-500">No company profiles added yet.</p>
-              <p className="text-sm text-gray-400">Add your first company profile to get started!</p>
+              <p className="text-sm text-gray-400">
+                Add your first company profile to get started!
+              </p>
             </div>
           ) : (
             <div className="grid gap-4 lg:gap-6">
-              {user.companyProfiles && user.companyProfiles.map((profile) => (
-                <div 
-                  key={profile._id} 
-                  className={`border rounded-lg p-4 transition-all duration-300 hover:shadow-md ${profile.isActive ? 'border-green-500 bg-green-50' : 'border-gray-200'}`}
-                >
-                  <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start space-y-4 lg:space-y-0">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-3">
-                        {profile.logo ? (
-                          <img 
-  src={`${profile.logo}`} 
-  alt={`${profile.companyName} logo`}
-  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0"
-/>
-                        ) : (
-                          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
-                            {profile.companyName.charAt(0).toUpperCase()}
+              {user.companyProfiles &&
+                user.companyProfiles.map((profile) => (
+                  <div
+                    key={profile._id}
+                    className={`border rounded-lg p-4 transition-all duration-300 hover:shadow-md ${
+                      profile.isActive
+                        ? "border-green-500 bg-green-50"
+                        : "border-gray-200"
+                    }`}
+                  >
+                    <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start space-y-4 lg:space-y-0">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-3 mb-3">
+                          {profile.logo ? (
+                            <img
+                              src={`${profile.logo}`}
+                              alt={`${profile.companyName} logo`}
+                              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover flex-shrink-0"
+                            />
+                          ) : (
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0">
+                              {profile.companyName.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                          <div className="min-w-0 flex-1">
+                            <h3 className="font-semibold text-lg truncate">
+                              {profile.companyName}
+                            </h3>
+                            {profile.industry && (
+                              <p className="text-gray-600 text-sm truncate">
+                                {profile.industry}
+                              </p>
+                            )}
+                            {profile.isActive && (
+                              <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mt-1">
+                                Active
+                              </span>
+                            )}
                           </div>
-                        )}
-                        <div className="min-w-0 flex-1">
-                          <h3 className="font-semibold text-lg truncate">{profile.companyName}</h3>
-                          {profile.industry && (
-                            <p className="text-gray-600 text-sm truncate">{profile.industry}</p>
-                          )}
-                          {profile.isActive && (
-                            <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mt-1">
-                              Active
-                            </span>
-                          )}
                         </div>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
-                        <div className="flex items-center space-x-2 min-w-0">
-                          <Mail size={16} className="text-gray-500 flex-shrink-0" />
-                          <span className="truncate">{profile.companyEmail}</span>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                          <Phone size={16} className="text-gray-500 flex-shrink-0" />
-                          <span>{profile.companyPhone}</span>
-                        </div>
-                        {profile.website && (
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
                           <div className="flex items-center space-x-2 min-w-0">
-                            <Globe size={16} className="text-gray-500 flex-shrink-0" />
-                            <span className="truncate">{profile.website}</span>
+                            <Mail
+                              size={16}
+                              className="text-gray-500 flex-shrink-0"
+                            />
+                            <span className="truncate">
+                              {profile.companyEmail}
+                            </span>
                           </div>
-                        )}
-                        <div className="flex items-center space-x-2 min-w-0">
-                          <MapPin size={16} className="text-gray-500 flex-shrink-0" />
-                          <span className="truncate">{profile.companyLocation}</span>
+                          <div className="flex items-center space-x-2">
+                            <Phone
+                              size={16}
+                              className="text-gray-500 flex-shrink-0"
+                            />
+                            <span>{profile.companyPhone}</span>
+                          </div>
+                          {profile.website && (
+                            <div className="flex items-center space-x-2 min-w-0">
+                              <Globe
+                                size={16}
+                                className="text-gray-500 flex-shrink-0"
+                              />
+                              <span className="truncate">
+                                {profile.website}
+                              </span>
+                            </div>
+                          )}
+                          <div className="flex items-center space-x-2 min-w-0">
+                            <MapPin
+                              size={16}
+                              className="text-gray-500 flex-shrink-0"
+                            />
+                            <span className="truncate">
+                              {profile.companyLocation}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    
-                    <div className="flex flex-row lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2 flex-shrink-0">
-                      <button
-                        onClick={() => handlePreview(profile)}
-                        className="flex-1 lg:flex-none p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        title="Preview"
-                      >
-                        <Eye size={16} />
-                        <span className="ml-1 lg:hidden text-sm">Preview</span>
-                      </button>
-                      <button
-                        onClick={() => handleEdit(profile)}
-                        className="flex-1 lg:flex-none p-2 text-gray-600 hover:bg-gray-50 rounded transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        title="Edit"
-                      >
-                        <Edit size={16} />
-                        <span className="ml-1 lg:hidden text-sm">Edit</span>
-                      </button>
-                      {!profile.isActive && (
+
+                      <div className="flex flex-row lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2 flex-shrink-0">
                         <button
-                          onClick={() => setActiveCompanyProfile(profile._id)}
-                          className="flex-1 lg:flex-none px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                          onClick={() => handlePreview(profile)}
+                          className="flex-1 lg:flex-none p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          title="Preview"
+                        >
+                          <Eye size={16} />
+                          <span className="ml-1 lg:hidden text-sm">
+                            Preview
+                          </span>
+                        </button>
+                        <button
+                          onClick={() => handleEdit(profile)}
+                          className="flex-1 lg:flex-none p-2 text-gray-600 hover:bg-gray-50 rounded transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          title="Edit"
+                        >
+                          <Edit size={16} />
+                          <span className="ml-1 lg:hidden text-sm">Edit</span>
+                        </button>
+                        {!profile.isActive && (
+                          <button
+                            onClick={() => setActiveCompanyProfile(profile._id)}
+                            className="flex-1 lg:flex-none px-3 py-2 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                            disabled={loading}
+                          >
+                            Set Active
+                          </button>
+                        )}
+                        <button
+                          onClick={() => removeCompanyProfile(profile._id)}
+                          className="flex-1 lg:flex-none p-2 text-red-500 hover:bg-red-50 rounded transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          title="Delete"
                           disabled={loading}
                         >
-                          Set Active
+                          <Trash size={16} />
+                          <span className="ml-1 lg:hidden text-sm">Delete</span>
                         </button>
-                      )}
-                      <button
-                        onClick={() => removeCompanyProfile(profile._id)}
-                        className="flex-1 lg:flex-none p-2 text-red-500 hover:bg-red-50 rounded transition-colors flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        title="Delete"
-                        disabled={loading}
-                      >
-                        <Trash size={16} />
-                        <span className="ml-1 lg:hidden text-sm">Delete</span>
-                      </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           )}
         </div>
 
         {/* Add/Edit Company Profile Modal */}
-        <div 
+        <div
           onClick={resetForm}
-          className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto transition-opacity duration-300 ${showAddForm ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+          className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto transition-opacity duration-300 ${
+            showAddForm ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
         >
-          <div 
+          <div
             onClick={(e) => e.stopPropagation()}
-            className={`bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-auto my-8 max-h-[90vh] overflow-y-auto transform transition-all duration-300 ${showAddForm ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+            className={`bg-white rounded-lg p-4 sm:p-6 w-full max-w-2xl mx-auto my-8 max-h-[90vh] overflow-y-auto transform transition-all duration-300 ${
+              showAddForm ? "scale-100 opacity-100" : "scale-95 opacity-0"
+            }`}
           >
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <h3 className="text-lg sm:text-xl font-bold">
-                {editingCompany ? 'Edit Profile' : 'Add New Profile'}
+                {editingCompany ? "Edit Profile" : "Add New Profile"}
               </h3>
               <button
                 onClick={resetForm}
@@ -465,7 +538,7 @@ const Dashboard = () => {
                 <X size={20} />
               </button>
             </div>
-            
+
             <div className="space-y-4 sm:space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="sm:col-span-2">
@@ -509,38 +582,43 @@ const Dashboard = () => {
                   />
                 </div>
 
-<div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Company Phone *
-  </label>
-  <input
-    type="number"
-    name="companyPhone"
-    value={formData.companyPhone}
-    onChange={(e) => {
-      // Remove non-digits
-      const value = e.target.value.replace(/[^\d]/g, '');
-      
-      // Allow only up to 10 digits
-      if (value.length <= 10) {
-        setFormData((prev) => ({ ...prev, companyPhone: value }));
-      }
-    }}
-    onKeyDown={(e) => {
-      if (['e', 'E', '+', '-', '.'].includes(e.key)) {
-        e.preventDefault();
-      }
-    }}
-    inputMode="numeric"
-    pattern="[0-9]*"
-    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-    required
-  />
-  {formData.companyPhone.length > 0 && formData.companyPhone.length < 10 && (
-    <p className="text-xs text-gray-500 mt-1">Phone number can be less than 10 digits but not more.</p>
-  )}
-</div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Company Phone *
+                  </label>
+                  <input
+                    type="number"
+                    name="companyPhone"
+                    value={formData.companyPhone}
+                    onChange={(e) => {
+                      // Remove non-digits
+                      const value = e.target.value.replace(/[^\d]/g, "");
 
+                      // Allow only up to 10 digits
+                      if (value.length <= 10) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          companyPhone: value,
+                        }));
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (["e", "E", "+", "-", "."].includes(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    required
+                  />
+                  {formData.companyPhone.length > 0 &&
+                    formData.companyPhone.length < 10 && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        Phone number can be less than 10 digits but not more.
+                      </p>
+                    )}
+                </div>
 
                 <div className="sm:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -583,7 +661,7 @@ const Dashboard = () => {
                     placeholder="e.g., Technology"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Founded Year
@@ -696,8 +774,8 @@ const Dashboard = () => {
                 </label>
                 <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
                   {formData.logo && (
-                    <img 
-                      src={formData.logo} 
+                    <img
+                      src={formData.logo}
                       alt="Logo preview"
                       className="w-12 h-12 rounded-full object-cover flex-shrink-0"
                     />
@@ -719,11 +797,17 @@ const Dashboard = () => {
 
               <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 pt-4">
                 <button
-                  onClick={editingCompany ? updateCompanyProfile : addCompanyProfile}
+                  onClick={
+                    editingCompany ? updateCompanyProfile : addCompanyProfile
+                  }
                   disabled={loading || uploading}
                   className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
                 >
-                  {loading ? 'Saving...' : (editingCompany ? 'Update Profile' : 'Add Profile')}
+                  {loading
+                    ? "Saving..."
+                    : editingCompany
+                    ? "Update Profile"
+                    : "Add Profile"}
                 </button>
                 <button
                   onClick={resetForm}
@@ -752,7 +836,7 @@ const Dashboard = () => {
 };
 
 // Add custom animation styles
-const styleSheet = document.createElement('style');
+const styleSheet = document.createElement("style");
 styleSheet.textContent = `
   .animate-fade-in {
     animation: fadeIn 0.5s ease-in;

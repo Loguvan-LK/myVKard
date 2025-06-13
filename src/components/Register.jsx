@@ -8,9 +8,11 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const sendOtp = async () => {
+    setLoading(true);
     try {
       const res = await fetch(`${BASE_URL}/api/send-registration-otp`, {
         method: 'POST',
@@ -26,6 +28,8 @@ const Register = () => {
       }
     } catch (error) {
       toast.error('Error sending OTP');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,9 +73,10 @@ const Register = () => {
       {!otpSent ? (
         <button
           onClick={sendOtp}
-          className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          disabled={loading}
         >
-          Send OTP
+          {loading ? 'Sending...' : 'Send OTP'}
         </button>
       ) : (
         <>
