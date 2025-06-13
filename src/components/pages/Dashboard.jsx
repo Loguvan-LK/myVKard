@@ -780,18 +780,22 @@ const Dashboard = () => {
                       className="w-12 h-12 rounded-full object-cover flex-shrink-0"
                     />
                   )}
-                  <div className="flex-1">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoUpload}
-                      className="w-full text-sm"
-                      disabled={uploading}
-                    />
-                    {uploading && (
-                      <p className="text-sm text-blue-600 mt-1">Uploading...</p>
-                    )}
-                  </div>
+<div className="flex-1">
+  <input
+    type="file"
+    accept="image/*"
+    onChange={handleLogoUpload}
+    className="w-full text-sm"
+    disabled={uploading}
+  />
+  <p className="text-xs text-gray-500 mt-1">
+    Recommended: 200x200px | Max size: 2MB | Format: JPG, PNG
+  </p>
+  {uploading && (
+    <p className="text-sm text-blue-600 mt-1">Uploading...</p>
+  )}
+</div>
+
                 </div>
               </div>
 
