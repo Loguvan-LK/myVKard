@@ -166,58 +166,52 @@ const CTASection = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
         >
           {/* Left Card */}
-         <motion.div
+         <motion.div 
   className="w-full md:w-[40%] bg-[#fff5f7] rounded-xl relative shadow-lg flex flex-col justify-start px-6 py-8 min-h-[260px] overflow-hidden"
-  whileHover={{
+  whileHover={{ 
     scale: 1.02,
-    boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+    boxShadow: "0 20px 40px rgba(0,0,0,0.1)"
   }}
   transition={{ duration: 0.3 }}
 >
-  <div className="text-left text-[#004672] z-10 flex-grow pr-56"> {/* Increased right padding */}
+  <div className="text-left text-[#004672] z-10 flex-grow md:pr-32">
     <h2 className="text-2xl font-bold leading-tight mb-4">
-      Join
-      <br />
-      <span className="text-[#0d1b2a]">MyVkard</span>
+      Join<br /><span className="text-[#0d1b2a]">MyVkard</span>
     </h2>
-    <p className="text-gray-700 text-lg leading-relaxed">
-      Get your personalized digital business card today and start
-      making memorable first impressions.
+    <p className="text-gray-700 text-lg leading-relaxed font-bold">
+      Get your personalized digital business card today and start making memorable first impressions.
     </p>
   </div>
 
-  <div className="absolute right-[-80px] bottom-[-20px] z-0 hidden md:block">
-    <motion.img
-      ref={cardRef}
-      src="/assets/cards-m.png"
-      alt="Card"
-      className="w-[350px] rotate-[-5deg] drop-shadow-xl"
-      animate={
-        pulseEffect
-          ? {
-              scale: [1, 1.1, 1],
-              rotate: [-5, 0, -5],
-            }
-          : {}
-      }
+  {/* Desktop Image - Contained within parent */}
+  <div className="absolute right-[-60px] bottom-[-10px] z-0 hidden md:block">
+    <motion.img 
+      ref={cardRef} 
+      src="/assets/cards-m.png" 
+      alt="Card" 
+      className="w-[280px] rotate-[-5deg] drop-shadow-xl"
+      animate={pulseEffect ? {
+        scale: [1, 1.1, 1],
+        rotate: [-5, 0, -5],
+      } : {}}
       transition={{ duration: 0.6 }}
     />
   </div>
 
+  {/* Mobile Image - Centered below text */}
   <div className="md:hidden mt-4 flex justify-center">
-    <motion.img
-      src="/assets/cards-m.png"
-      alt="Card"
+    <motion.img 
+      src="/assets/cards-m.png" 
+      alt="Card" 
       className="w-[220px] rotate-[-5deg] drop-shadow-xl"
       whileHover={{
         scale: 1.05,
         rotate: 0,
-        transition: { duration: 0.3 },
+        transition: { duration: 0.3 }
       }}
     />
   </div>
 </motion.div>
-
 
           {/* Right Card */}
           <motion.div
